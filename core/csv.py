@@ -5,7 +5,7 @@ class CsvConverter:
 	@staticmethod
 	def goCSVcell(x):
 		# Оборачиваем в в двойные кавычки и задаем кодировку
-		x = '"' + x.encode('utf-8') + '"'
+		x = '"' + str(x) + '"'
 		return x
 
 	# Конверт ячеек в строку

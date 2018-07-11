@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from urllib.request import Request, urlopen, urlretrieve
 from bs4 import BeautifulSoup
-from urllib2 import urlopen
 import re
 
 # Для того чтобы подключить класс формирования ссылки
@@ -22,9 +22,9 @@ str_csv = ""
 
 # Файлы
 # Файл, в котором хранятся ссылки на страницы с категориями
-list_file = open('./list.txt', 'a+')
+list_file = open('./list.txt', 'r')
 # Список товаров
-result = open("./result.csv", "a+")
+result = open("./result.csv", "a")
 # Количество строк в файле со ссылками
 filelength = Count.rowsnumber('list.txt')
 # Обнуляем счетчик
@@ -52,9 +52,11 @@ for line in list_file.readlines():
 	# Поднимаем счетчик на 1
 	counter += 1
 	# Выводим в консоль
-	print Clear.toBlue(str(counter) + '/' + str(filelength) + ': ') + title
+	print(Clear.toBlue(str(counter) + '/' + str(filelength) + ': ') + title)
 	# Добавляем столбцы в csv
 	str_csv += CsvConverter.goCSVrow(str(counter), title, text, image)
+	if counter > 2:
+		break
 
 # Первая строка таблицы - заголовки столбцов
 str_csv_header = CsvConverter.goCSVrow('id', 'Заголовок', 'Текст', 'Изображение')
