@@ -4,6 +4,7 @@
 from urllib.request import Request, urlopen, urlretrieve
 from bs4 import BeautifulSoup
 import re
+import os
 
 # Для того чтобы подключить класс формирования ссылки
 import sys
@@ -15,8 +16,13 @@ from core.csv import CsvConverter
 from core.cleaner import Clear
 from core.counter import Count
 
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+
+
 # Переменные
-site = 'https://clipsite.ru'
+site = 'http://clipsite.ru'
 # Переменная, куда будут попадать значения csv
 str_csv = ""
 
@@ -24,11 +30,14 @@ str_csv = ""
 # Файл, в котором хранятся ссылки на страницы с категориями
 list_file = open('./list.txt', 'r')
 # Список товаров
-result = open("./result.csv", "a")
+if not os.path.exists('../build'):
+	os.mkdir('../build')
+open('../build/result.csv', 'w').close()
+result = open("../build/result.csv", "a")
 # Количество строк в файле со ссылками
 filelength = Count.rowsnumber('list.txt')
 # Обнуляем счетчик
-counter = 0;
+counter = 0
 # Проходимся по всем ссылкам
 for line in list_file.readlines():
 	# Библиотека beautiful soup конвертит ссылки в нужный нам формат
@@ -55,8 +64,6 @@ for line in list_file.readlines():
 	print(Clear.toBlue(str(counter) + '/' + str(filelength) + ': ') + title)
 	# Добавляем столбцы в csv
 	str_csv += CsvConverter.goCSVrow(str(counter), title, text, image)
-	if counter > 2:
-		break
 
 # Первая строка таблицы - заголовки столбцов
 str_csv_header = CsvConverter.goCSVrow('id', 'Заголовок', 'Текст', 'Изображение')
