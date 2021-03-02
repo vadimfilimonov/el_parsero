@@ -3,10 +3,14 @@
 
 # Для того чтобы подключить класс формирования ссылки
 import sys
+import os
 # переходим в корень
 sys.path.insert(0, '../')
 # Подключаем класс
-from core.links import LinksFormatter
+from links import LinksFormatter
+
+if not os.path.exists('./build'):
+	os.mkdir('./build')
 
 # Переменные
 
@@ -15,7 +19,7 @@ site = 'clipsite.ru'
 # Файл, в котором содержится перечень ссылок, из которых формируется конечный файл с ссылками
 file_input = 'list_start.txt'
 # Файл, в который помещается результат
-file_output = 'list.txt'
+file_output = './build/list.txt'
 # Класс ссылок, которые нужно помещать файл
 linkKeeperClass = "c-blog__button"
 # Вызов функции, которая формирует файл

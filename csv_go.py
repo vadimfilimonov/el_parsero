@@ -12,7 +12,7 @@ import sys
 sys.path.insert(0, '../')
 
 # Подключаем класс
-from core.csv import CsvConverter
+from csv import CsvConverter
 
 import ssl
 
@@ -41,14 +41,14 @@ str_csv = ""
 
 # Файлы
 # Файл, в котором хранятся ссылки на страницы с категориями
-list_file = open('./list.txt', 'r')
+list_file = open('./build/list.txt', 'r')
 # Список товаров
-if not os.path.exists('../build'):
-	os.mkdir('../build')
-open('../build/result.csv', 'w').close()
-result = open("../build/result.csv", "a")
+if not os.path.exists('./build'):
+	os.mkdir('./build')
+open('./build/result.csv', 'w').close()
+result = open("./build/result.csv", "a")
 # Количество строк в файле со ссылками
-filelength = rowsnumber('list.txt')
+filelength = rowsnumber('./build/list.txt')
 # Обнуляем счетчик
 counter = 0
 # Проходимся по всем ссылкам

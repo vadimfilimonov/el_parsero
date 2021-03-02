@@ -34,9 +34,9 @@ class LinksFormatter:
 				links += link + '\n'
 			print(counter)
 			# Открываем файл
+			open('./' + file_output, 'w').close()
 			categories_list_result = open('./' + file_output, 'a+')
 			# Записываем в файл
 			categories_list_result.write(links)
 			# И закрываем его
 			categories_list_result.close()
-
