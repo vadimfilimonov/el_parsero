@@ -5,16 +5,12 @@ from urllib.request import Request, urlopen, urlretrieve
 from bs4 import BeautifulSoup
 import re
 import os
+import ssl
 
 # Для того чтобы подключить класс формирования ссылки
 import sys
 # переходим в корень
 sys.path.insert(0, '../')
-
-# Подключаем класс
-from csv import CsvConverter
-
-import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -33,6 +29,21 @@ def rowsnumber(filename):
 	content = file.read()
 	content_list = content.split('\n')
 	return len(content_list)
+
+def buildCell(x):
+	x = f'"{str(x)}"'
+	return x
+
+def buildRow(*cells):
+	# Создаем пустую строку
+	row = ''
+	# Проходимся по всем ячейкам
+	for cell in cells:
+		# Каждой ячейке справа добавляем точку с запятой
+		row += buildCell(cell) + ';'
+	# У последнего столбца добавляем перенос строки
+	row += '\n'
+	return row
 
 # Переменные
 site = 'http://clipsite.ru'
@@ -60,26 +71,23 @@ for line in list_file.readlines():
 	# Заголовок страницы
 	title = soup.find('h1').text
 	title = delrubbish(title)
-	title = CsvConverter.goCSVcell(title)
 
 	# Текст
 	text = soup.find('div', 'node__content').find('div', 'field--name-body')
-	text = CsvConverter.goCSVcell(text)
 
 	# Изображение
 	image = soup.find('div', 'c-bg-block').get('style')
 	image = delrubbish(image)
-	image = CsvConverter.goCSVcell(image)
 
 	# Поднимаем счетчик на 1
 	counter += 1
 	# Выводим в консоль
 	print(toBlue(str(counter) + '/' + str(filelength) + ': ') + title)
 	# Добавляем столбцы в csv
-	str_csv += CsvConverter.goCSVrow(str(counter), title, text, image)
+	str_csv += buildRow(str(counter), title, text, image)
 
 # Первая строка таблицы - заголовки столбцов
-str_csv_header = CsvConverter.goCSVrow('id', 'Заголовок', 'Текст', 'Изображение')
+str_csv_header = buildRow('id', 'Заголовок', 'Текст', 'Изображение')
 result.write(str_csv_header)
 # Записываем конечный csv файл с категориями
 result.write(str_csv)
