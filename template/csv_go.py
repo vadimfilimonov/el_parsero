@@ -13,13 +13,21 @@ sys.path.insert(0, '../')
 
 # Подключаем класс
 from core.csv import CsvConverter
-from core.cleaner import Clear
 from core.counter import Count
 
 import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
+def delrubbish(x):
+	import re
+	x = re.sub("^\s+|\n|\r|\t|\s*$|\t*$;", '', x)
+	x = re.sub('"', "'", x)
+	return x
+
+def toBlue(x):
+	x = '\033[96m' + x + '\033[0m'
+	return x
 
 # Переменные
 site = 'http://clipsite.ru'
@@ -46,7 +54,7 @@ for line in list_file.readlines():
 
 	# Заголовок страницы
 	title = soup.find('h1').text
-	title = Clear.delrubbish(title)
+	title = delrubbish(title)
 	title = CsvConverter.goCSVcell(title)
 
 	# Текст
@@ -55,13 +63,13 @@ for line in list_file.readlines():
 
 	# Изображение
 	image = soup.find('div', 'c-bg-block').get('style')
-	image = Clear.delrubbish(image)
+	image = delrubbish(image)
 	image = CsvConverter.goCSVcell(image)
 
 	# Поднимаем счетчик на 1
 	counter += 1
 	# Выводим в консоль
-	print(Clear.toBlue(str(counter) + '/' + str(filelength) + ': ') + title)
+	print(toBlue(str(counter) + '/' + str(filelength) + ': ') + title)
 	# Добавляем столбцы в csv
 	str_csv += CsvConverter.goCSVrow(str(counter), title, text, image)
 
