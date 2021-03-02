@@ -13,7 +13,6 @@ sys.path.insert(0, '../')
 
 # Подключаем класс
 from core.csv import CsvConverter
-from core.counter import Count
 
 import ssl
 
@@ -29,6 +28,12 @@ def toBlue(x):
 	x = '\033[96m' + x + '\033[0m'
 	return x
 
+def rowsnumber(filename):
+	file = open(filename)
+	content = file.read()
+	content_list = content.split('\n')
+	return len(content_list)
+
 # Переменные
 site = 'http://clipsite.ru'
 # Переменная, куда будут попадать значения csv
@@ -43,7 +48,7 @@ if not os.path.exists('../build'):
 open('../build/result.csv', 'w').close()
 result = open("../build/result.csv", "a")
 # Количество строк в файле со ссылками
-filelength = Count.rowsnumber('list.txt')
+filelength = rowsnumber('list.txt')
 # Обнуляем счетчик
 counter = 0
 # Проходимся по всем ссылкам
