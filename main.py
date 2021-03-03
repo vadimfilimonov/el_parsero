@@ -9,20 +9,15 @@ import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
-def delrubbish(x):
+def buildCell(x):
+	x = str(x)
 	x = re.sub("^\\s+|\n|\r|\t|\\s*$|\t*$;", '', x)
 	x = re.sub('"', "'", x)
-	return x
+	return f'"{x}"'
 
-def buildCell(x):
-	return f'"{delrubbish(str(x))}"'
-
-def buildRow(*cells):
-	row = ''
-	for cell in cells:
-		row += f'{buildCell(cell)};'
-	row += '\n'
-	return row
+def buildRow(*values):
+	cells = map(lambda value: f'{buildCell(value)};', values)
+	return ";".join(cells) + ";\n"
 
 def createBuildFolder():
 	if not os.path.exists('./build'):
