@@ -10,7 +10,7 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 def delrubbish(x):
-	x = re.sub("^\s+|\n|\r|\t|\s*$|\t*$;", '', x)
+	x = re.sub("^\\s+|\n|\r|\t|\\s*$|\t*$;", '', x)
 	x = re.sub('"', "'", x)
 	return x
 
