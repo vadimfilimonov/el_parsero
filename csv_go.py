@@ -43,7 +43,7 @@ def start():
 		image = soup.find('div', 'c-bg-block').get('style')
 		str_csv_body += buildRow(title, text, image)
 		print(title)
-	str_csv_header = buildRow('Заголовок', 'Текст', 'Изображение')
+	str_csv_header = buildRow('Title', 'Text', 'Image')
 	result.write(str_csv_header)
 	result.write(str_csv_body)
 	list_file.close()
