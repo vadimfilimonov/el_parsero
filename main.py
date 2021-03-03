@@ -3,8 +3,8 @@
 
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-import re
 import os
+import re
 import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -49,4 +49,5 @@ def start():
 	list_file.close()
 	result.close()
 
-start()
+if __name__ == '__main__':
+	start()

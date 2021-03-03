@@ -1,13 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
-import os
+
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-
-def createBuildFolder():
-	if not os.path.exists('./build'):
-			os.mkdir('./build')
+from main import createBuildFolder
 
 def generateLinks(site, file_input, file_output, linkkeeper):
 	input = open(file_input, "r")
@@ -26,4 +22,5 @@ def start():
 	createBuildFolder()
 	generateLinks('clipsite.ru', 'list_start.txt', './build/list.txt', 'c-blog__button')
 
-start()
+if __name__ == '__main__':
+	start()
