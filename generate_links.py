@@ -3,7 +3,7 @@
 
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from main import createBuildFolder
+from main import createBuildFolder, paintText
 
 def generateLinks(site, file_input, file_output, linkkeeper):
 	input = open(file_input, "r")
@@ -16,9 +16,10 @@ def generateLinks(site, file_input, file_output, linkkeeper):
 		result = open(file_output, 'a+')
 		result.write(links)
 		result.close()
-	print('Links have been generated!\n')
+	print(paintText('Links have been generated!\n'))
 
 def start():
+	print(paintText('Start to generate links'))
 	createBuildFolder()
 	generateLinks('clipsite.ru', 'list_start.txt', './build/list.txt', 'c-blog__button')
 

@@ -9,6 +9,9 @@ import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
+def paintText(text):
+	return f'\033[96m{text}\033[0m'
+
 def buildCell(x):
 	x = str(x)
 	x = re.sub("^\\s+|\n|\r|\t|\\s*$|\t*$;", '', x)
@@ -24,6 +27,7 @@ def createBuildFolder():
 			os.mkdir('./build')
 
 def start():
+	print(paintText('Start to parse pages'))
 	str_csv_body = ""
 
 	list_file = open('./build/list.txt', 'r')
@@ -43,6 +47,7 @@ def start():
 	result.write(str_csv_body)
 	list_file.close()
 	result.close()
+	print(paintText('All pages have been parsed!'))
 
 if __name__ == '__main__':
 	start()
