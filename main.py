@@ -10,57 +10,56 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 def buildCell(x):
-	x = re.sub("^\\s+|\n|\r|\t|\\s*$|\t*$;", '', x)
-	x = re.sub('"', "'", x)
-	return f'"{x}"'
+	string_x = str(x)
+	no_breakline_x = re.sub("^\\s+|\n|\r|\t|\\s*$|\t*$;", '', string_x)
+	single_quote_x = re.sub('"', "'", no_breakline_x)
+	wrapped_x = f'"{single_quote_x}"'
+	return wrapped_x
 
 def buildRow(*values):
-	cells = map(lambda value: f'{buildCell(str(value))};', values)
-	return ";".join(cells) + ";\n"
+	cells = map(lambda value: buildCell(value), values)
+	return ";".join(cells)
 
 def createBuildFolder():
 	if not os.path.exists('./build'):
 			os.mkdir('./build')
 
-def generateLinks(site, file_input, file_output, linkkeeper):
-	print('Start to generate links')
-	input = open(file_input, "r")
-	for link in input.readlines():
-		html_doc = urlopen(link).read()
+def generateLinks(site, file_input, linkClassname):
+	links = []
+	parentLinks = open(file_input, "r").read().splitlines()
+	for parentLink in parentLinks:
+		html_doc = urlopen(parentLink).read()
 		soup = BeautifulSoup(html_doc, "html.parser")
-		lists = soup.find_all(class_=linkkeeper)
-		links = '\n'.join(map(lambda tag: f'http://{site}{tag.find("a").get("href")}', lists))
-		open(file_output, 'w').close()
-		result = open(file_output, 'a+')
-		result.write(links)
-		result.close()
-	print('Links have been generated!\n')
+		tags = soup.find_all(class_=linkClassname)
+		hrefs = map(lambda tag: f'http://{site}{tag.find("a").get("href")}', tags)
+		links += hrefs
+	return links
 
-def parsePages():
-	print('Start to parse pages')
-	str_csv_body = ""
-	list_file = open('./build/list.txt', 'r')
+def buildCSV(content):
+	createBuildFolder()
 	open('./build/result.csv', 'w').close()
 	result = open("./build/result.csv", "a")
-	for line in list_file.readlines():
+	result.write(content)
+	result.close()
+
+def parse(linksList):
+	rows = []
+	rows.append(buildRow('Title', 'Text', 'Image'))
+	for line in linksList:
 		html_doc = urlopen(line).read()
 		soup = BeautifulSoup(html_doc, "html.parser")
 		title = soup.find('h1').text
 		text = soup.find('div', 'field--name-body')
 		image = soup.find('div', 'c-bg-block').get('style')
-		str_csv_body += buildRow(title, text, image)
+		rows.append(buildRow(title, text, image))
 		print(title)
-	str_csv_header = buildRow('Title', 'Text', 'Image')
-	result.write(str_csv_header)
-	result.write(str_csv_body)
-	list_file.close()
-	result.close()
 	print('All pages have been parsed!')
+	content = '\n'.join(rows)
+	return content
 
 def start():
-	createBuildFolder()
-	generateLinks('clipsite.ru', 'list_start.txt', './build/list.txt', 'c-blog__button')
-	parsePages()
+	links = generateLinks('clipsite.ru', 'list_start.txt', 'c-blog__button')
+	content = parse(links)
+	buildCSV(content)
 
-if __name__ == '__main__':
-	start()
+start()
