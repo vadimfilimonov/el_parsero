@@ -1,0 +1,27 @@
+name: build
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependecies
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: install -d
+      - name: pipenv install
+        run: |
+          make install
+      - name: Run linter
+        run: |
+          make lint
+      - name: Build
+        run: |
+          cp .env.example .env
+          cp .pages.example .pages
+          make build
