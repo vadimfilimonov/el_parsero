@@ -2,6 +2,12 @@
 
 Simple template for parsing
 
+## Run environment
+
+```sh
+make up
+```
+
 ## Setup
 
 ```sh

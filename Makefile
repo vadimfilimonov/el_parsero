@@ -1,7 +1,13 @@
+up:
+	pipenv shell
+
 install:
 	pipenv install
 
 build:
-	@python3 main.py
+	pipenv run python main.py
+
+lint:
+	pylint --rcfile=.pylintrc *.py
 
 .PHONY: build
