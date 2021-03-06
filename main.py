@@ -27,7 +27,7 @@ def create_build_folder():
 
 def generate_links():
     links = []
-    parent_links = open("list_start.txt", "r").read().splitlines()
+    parent_links = open(".pages", "r").read().splitlines()
     site = urlsplit(parent_links[0]).netloc
     for parent_link in parent_links:
         html_doc = urlopen(parent_link).read()
