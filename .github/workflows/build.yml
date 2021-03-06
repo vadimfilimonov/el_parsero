@@ -20,8 +20,11 @@ jobs:
       - name: Install pipenv
         uses: dschep/install-pipenv-action@v1
 
-      - name: pipenv install
+      - name: Setup
         run: |
+          cp .env.example .env
+          cp .pages.example .pages
+          make up
           make install
 
       - name: Run linter
@@ -30,6 +33,4 @@ jobs:
 
       - name: Build
         run: |
-          cp .env.example .env
-          cp .pages.example .pages
           make build
