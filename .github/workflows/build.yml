@@ -25,7 +25,6 @@ jobs:
         run: |
           cp .env.example .env
           cp .pages.example .pages
-          make up
           make install
 
       - name: Run linter
