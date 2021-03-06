@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 def build_cell(value):
     stringed_value = str(value)
-    no_breakline_value = re.sub("^\\s+|\n|\r|\t|\\s*$|\t*$;", '', stringed_value)
+    no_breakline_value = re.sub("^\\s+|\n|\r|\t|\\s*$|\t*$;", "", stringed_value)
     single_quote_value = re.sub('"', "'", no_breakline_value)
     wrapped_value = f'"{single_quote_value}"'
     return wrapped_value
@@ -19,8 +19,8 @@ def build_row(*values):
     return ";".join(cells)
 
 def create_build_folder():
-    if not os.path.exists('./build'):
-        os.mkdir('./build')
+    if not os.path.exists("./build"):
+        os.mkdir("./build")
 
 def generate_links(file_input, link_classname):
     links = []
@@ -36,29 +36,29 @@ def generate_links(file_input, link_classname):
 
 def build_csv(content):
     create_build_folder()
-    open('./build/result.csv', 'w').close()
+    open("./build/result.csv", "w").close()
     result = open("./build/result.csv", "a")
     result.write(content)
     result.close()
 
 def parse(links_list):
     rows = []
-    rows.append(build_row('Title', 'Text', 'Image'))
+    rows.append(build_row("Title", "Text", "Image"))
     for line in links_list:
         html_doc = urlopen(line).read()
         soup = BeautifulSoup(html_doc, "html.parser")
-        title = soup.find('h1').text
-        text = soup.find('div', 'field--name-body')
-        image = soup.find('div', 'c-bg-block').get('style')
+        title = soup.find("h1").text
+        text = soup.find("div", "field--name-body")
+        image = soup.find("div", "c-bg-block").get("style")
         rows.append(build_row(title, text, image))
         print(title)
-    print('All pages have been parsed!')
-    content = '\n'.join(rows)
+    content = "\n".join(rows)
     return content
 
 def start():
-    links = generate_links('list_start.txt', 'c-blog__button')
+    links = generate_links("list_start.txt", "c-blog__button")
     content = parse(links)
     build_csv(content)
+    print("All pages have been parsed!")
 
 start()
