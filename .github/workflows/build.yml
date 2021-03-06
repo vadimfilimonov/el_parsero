@@ -21,16 +21,11 @@ jobs:
         run: |
           pip install pipenv
 
-      - name: Setup
+      - name: Setup, lint, build
         run: |
           cp .env.example .env
           cp .pages.example .pages
+          make up
           make install
-
-      - name: Run linter
-        run: |
           make lint
-
-      - name: Build
-        run: |
           make build
