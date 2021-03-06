@@ -2,11 +2,9 @@
 
 import os
 import re
-import ssl
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
-ssl._create_default_https_context = ssl._create_unverified_context
 
 def build_cell(value):
     stringed_value = str(value)
