@@ -2,6 +2,7 @@
 
 import os
 import re
+from urllib.parse import urlsplit
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
@@ -21,9 +22,10 @@ def create_build_folder():
     if not os.path.exists('./build'):
         os.mkdir('./build')
 
-def generate_links(site, file_input, link_classname):
+def generate_links(file_input, link_classname):
     links = []
     parent_links = open(file_input, "r").read().splitlines()
+    site = urlsplit(parent_links[0]).netloc
     for parent_link in parent_links:
         html_doc = urlopen(parent_link).read()
         soup = BeautifulSoup(html_doc, "html.parser")
@@ -55,7 +57,7 @@ def parse(links_list):
     return content
 
 def start():
-    links = generate_links('clipsite.ru', 'list_start.txt', 'c-blog__button')
+    links = generate_links('list_start.txt', 'c-blog__button')
     content = parse(links)
     build_csv(content)
 
