@@ -26,5 +26,5 @@ jobs:
           cp .env.example .env
           cp .pages.example .pages
           pipenv install
-          pylint --rcfile=.pylintrc *.py
+          pipenv run pylint --rcfile=.pylintrc *.py
           pipenv run python main.py

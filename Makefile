@@ -8,6 +8,6 @@ build:
 	pipenv run python main.py
 
 lint:
-	pylint --rcfile=.pylintrc *.py
+	pipenv run pylint --rcfile=.pylintrc *.py
 
 .PHONY: build
