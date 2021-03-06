@@ -2,5 +2,6 @@ venv
 *pyc
 .idea
 .vscode
+.env
 
 build
