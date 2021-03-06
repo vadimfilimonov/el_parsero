@@ -17,9 +17,8 @@ jobs:
         with:
           python-version: "3.8"
 
-      - name: Install pipenv
-        run: |
-          pip install pipenv
+      - name: Pipenv for Github Actions
+        uses: VaultVulp/action-pipenv@v2.0.1
 
       - name: Setup
         run: |
