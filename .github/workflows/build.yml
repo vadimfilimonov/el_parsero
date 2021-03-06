@@ -25,7 +25,7 @@ jobs:
         run: |
           cp .env.example .env
           cp .pages.example .pages
-          make up
-          make install
-          make lint
-          make build
+          pipenv shell
+          pipenv install
+          pylint --rcfile=.pylintrc *.py
+          pipenv run python main.py
