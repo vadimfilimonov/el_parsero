@@ -33,7 +33,8 @@ jobs:
         run: |
           cp .env.example .env
           cp .pages.example .pages
-          pipenv sync
+          pipenv install
+          pipenv install --dev
           pipenv graph
           pipenv run pylint --rcfile=.pylintrc *.py
           pipenv run python main.py
