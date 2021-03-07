@@ -26,10 +26,5 @@ jobs:
           cp .env.example .env
           cp .pages.example .pages
           pipenv install
-          which pylint
-          pipenv run which pylint
-          echo $PATH
-          pipenv run echo $PATH
-          export
           pipenv run pylint --rcfile=.pylintrc *.py
           pipenv run python main.py
