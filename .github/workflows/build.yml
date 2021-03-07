@@ -29,10 +29,16 @@ jobs:
         run: |
           pip3 install pipenv
 
-      - name: Setup, lint, build
+      - name: Setup
         run: |
           cp .env.example .env
           cp .pages.example .pages
           make install
+
+      - name: Run lint
+        run: |
           make lint
+
+      - name: Build
+        run: |
           make build
