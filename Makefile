@@ -3,6 +3,7 @@ up:
 
 install:
 	pipenv install
+	pipenv install --dev
 
 build:
 	pipenv run python main.py
