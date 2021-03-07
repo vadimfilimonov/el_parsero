@@ -25,9 +25,10 @@ jobs:
         with:
           python-version: "3.8"
 
-      - name: Install pipenv
-        run: |
-          pip install pipenv
+      - name: Install dependecies
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: install -d
 
       - name: Setup, lint, build
         run: |
