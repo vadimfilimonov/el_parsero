@@ -1,4 +1,4 @@
-name: build
+name: linter
 
 on:
   - push
@@ -23,10 +23,8 @@ jobs:
 
       - name: Setup
         run: |
-          cp .env.example .env
-          cp .pages.example .pages
           make install
 
-      - name: Build
+      - name: Run lint
         run: |
-          make build
+          make lint
